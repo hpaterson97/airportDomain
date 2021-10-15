@@ -17,6 +17,49 @@ class Airport {
         }
     }
 
+    fly(plane, destination) {
+        
+        
+        if(this == plane.origin){
+            this.planes.push(plane);
+        }
+        else {
+            throw new Error('Plane is not on ' + this.name + "'s runway");
+        }
+        const dest = destination;
+        const aporiginindex = Airport.airports.indexOf(plane.origin);
+        const apdestindex = Airport.airports.indexOf(dest);
+
+        if (plane instanceof Plane) {
+            if (Airport.airports[aporiginindex].planes.includes(plane) === true) {
+                const planeindex = Airport.airports[aporiginindex].planes.indexOf(plane);
+                Airport.airports[aporiginindex].planes.splice(planeindex, 1);
+
+                Airport.airports[apdestindex].planes.push(plane);
+                plane.setOrigin(Airport.airports[apdestindex].name);
+            }
+            else {
+                throw new Error('Plane not in origin airport');
+            }
+            
+
+            }
+            else {
+                throw new Error('Airport can only fly planes');
+            }
+    }
+
+
+
+
+
+
+
+
+
+
+/*
+
     //combine land() and takeOff() functions to make a fly() function that removes plane from origin airport's plane array and adds it to destination airport's plane array
     land(plane) {
         if (plane instanceof Plane) {
@@ -43,16 +86,21 @@ class Airport {
         }
         
     }
+    */
 }
 
+const airp1 = new Airport('San Fran');
+const airp2 = new Airport('London');
 const plane1 = new Plane('abc');
 const plane2 = new Plane('123');
 const plane3 = new Plane('678');
-const airp1 = new Airport('San Fran');
-airp1.land(plane1);
-airp1.land(plane2);
-console.log(airp1);
-airp1.takeOff(plane3);
-console.log(airp1);
+
+
+plane1.setOrigin(airp1);
+
+airp1.fly(plane1, airp2)
+
+console.log(plane1.origin);
+
 
 module.exports = {Airport};

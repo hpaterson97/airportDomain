@@ -1,12 +1,13 @@
 const {Passenger} = require('./passengerClass');
 const {CrewMem} = require('./crewmemClass');
 
+
 class Plane {
     constructor(type) {
         this.type = type;
         this.passengers = [];
         this.crewmembers = [];
-        this.origin = origin;
+        this.origin;
 
         if (!this.type) {
             throw new Error('Plane must have type');       
@@ -27,8 +28,9 @@ class Plane {
         
     }
     setOrigin(name) {
-        this.origin = name;
-    }
+        this.origin = name
+        }
+    
 
     
 }
