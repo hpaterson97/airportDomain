@@ -1,3 +1,5 @@
+const { CrewMem } = require('./crewmemClass');
+const { Passenger } = require('./passengerClass');
 const {Plane} = require('./planeClass');
 
 class Airport {
@@ -16,27 +18,31 @@ class Airport {
             throw new Error('Airport name must be a string')
         }
     }
+    setOrigin(plane) {
+        plane.origin = this.name;
+        this.planes.push(plane);
+    }
 
     fly(plane, destination) {
         
         
-        if(this == plane.origin){
+        if(this.name == plane.origin){
             this.planes.push(plane);
         }
         else {
             throw new Error('Plane is not on ' + this.name + "'s runway");
         }
         const dest = destination;
-        const aporiginindex = Airport.airports.indexOf(plane.origin);
-        const apdestindex = Airport.airports.indexOf(dest);
+        const apdestindex = Airport.airports.indexOf(destination);
 
         if (plane instanceof Plane) {
-            if (Airport.airports[aporiginindex].planes.includes(plane) === true) {
-                const planeindex = Airport.airports[aporiginindex].planes.indexOf(plane);
-                Airport.airports[aporiginindex].planes.splice(planeindex, 1);
+            if (this.planes.includes(plane) === true) {
+                const planeindex = this.planes.indexOf(plane);
+                this.planes.splice(planeindex, 1);
 
                 Airport.airports[apdestindex].planes.push(plane);
-                plane.setOrigin(Airport.airports[apdestindex].name);
+                Airport.airports[apdestindex].setOrigin(plane);
+                return 'plane with ID: ' + plane.id + ' has flown from ' + this.name + ' to ' + destination.name;
             }
             else {
                 throw new Error('Plane not in origin airport');
@@ -89,18 +95,17 @@ class Airport {
     */
 }
 
-const airp1 = new Airport('San Fran');
-const airp2 = new Airport('London');
-const plane1 = new Plane('abc');
-const plane2 = new Plane('123');
-const plane3 = new Plane('678');
+module.exports = {Airport};
 
+const passenger1 = new Passenger('Jack', 123, 456);
+const sanFran = new Airport('San Fran');
+const london = new Airport('London');
+const plane1 = new Plane('abc', 555);
+const crewmember = new CrewMem('Jill', 'Captain');
 
-plane1.setOrigin(airp1);
-
-airp1.fly(plane1, airp2)
-
+passenger1.addBag(2);
+plane1.board(passenger1);
+plane1.board(crewmember);
+sanFran.setOrigin(plane1);
 console.log(plane1.origin);
 
-
-module.exports = {Airport};
