@@ -1,6 +1,7 @@
 const { CrewMem } = require('./crewmemClass');
 const { Passenger } = require('./passengerClass');
 const {Plane} = require('./planeClass');
+const {Person} = require('./personSupClass');
 
 class Airport {
     static airports = [] //an array containing all of the instances that have been created
@@ -38,10 +39,12 @@ class Airport {
         if (plane instanceof Plane) {
             if (this.planes.includes(plane) === true) {
                 const planeindex = this.planes.indexOf(plane);
+                console.log(planeindex);
                 this.planes.splice(planeindex, 1);
 
-                Airport.airports[apdestindex].planes.push(plane);
+
                 Airport.airports[apdestindex].setOrigin(plane);
+                Airport.airports[apdestindex].planes.push(plane);
                 return 'plane with ID: ' + plane.id + ' has flown from ' + this.name + ' to ' + destination.name;
             }
             else {
@@ -102,10 +105,24 @@ const sanFran = new Airport('San Fran');
 const london = new Airport('London');
 const plane1 = new Plane('abc', 555);
 const crewmember = new CrewMem('Jill', 'Captain');
-
+/*
 passenger1.addBag(2);
 plane1.board(passenger1);
 plane1.board(crewmember);
 sanFran.setOrigin(plane1);
 console.log(plane1.origin);
+console.log('san fran runway', sanFran.planes);
+console.log('london runway:', london.planes);
+sanFran.fly(plane1, london);
+console.log('plane flew');
+console.log('san fran runway:', sanFran.planes);
+console.log('london runway:', london.planes);
+*/
+sanFran.setOrigin(plane1);
+console.log(plane1.origin);
+console.log('san fran runway', sanFran.planes);
+console.log('london runway:', london.planes);
+sanFran.fly(plane1, london);
+console.log('san fran planes', sanFran.planes);
+
 

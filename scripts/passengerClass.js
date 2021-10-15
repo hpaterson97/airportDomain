@@ -1,38 +1,24 @@
 const {Bag} = require('./bagClass');
+const {Person} = require('./personSupClass');
 //PASSENGER CLASS//
 
-class Passenger {
+class Passenger extends Person{
     constructor(name, passNo, seatNo){
-        this.name = name;
+        super(name);
         this.passNo = passNo;
         this.seatNo = seatNo;
         this.bags = []
 
         if (!this.name) {
-            throw new Error('Passenger must have name');
-        };
+            throw new Error('Passenger must have name')
+        }
         if (!this.passNo) {
-            throw new Error('Passenger must have passport number');
-        };
+            throw new Error('Passenger must have passport number')
+        }
         if (!this.seatNo) {
-            throw new Error('Passenger must have seat number');
-        };
-
-    }
-
-    
-
-
-
-    addBag(weight){
-        const bag = new Bag(weight);
-        if (bag.isOverLimit() === true) {
-            throw new Error('Bag over weight limit');
+            throw new Error('Passenger must have seat number')
         }
-        else{
-            this.bags.push(new Bag(weight));
-        }
-        
+
     }
 
     

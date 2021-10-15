@@ -1,9 +1,10 @@
 // CREW MEMBER CLASS //
 const {Bag} = require('./bagClass');
+const {Person} = require('./personSupClass');
 
-class CrewMem {
+class CrewMem extends Person{
     constructor(name, position){
-        this.name = name;
+        super(name)
         this.position = position;
         this.bags = [];
 
@@ -20,17 +21,13 @@ class CrewMem {
             throw new Error('Crew Member position must be a string')
         }
     }
-    addBag(weight) {
-        const bag = new Bag(weight);
-        if (bag.isOverLimit() === true) {
-            throw new Error('Bag over weight limit'); 
-        }
-        else {
-            this.bags.push(bag);
-        }
-
-    }
+    
 };
+/*
+const captain = new CrewMem('John', 'Captain');
+console.log(captain)
+captain.addBag(2)
+console.log(captain);*/
 
 module.exports = {CrewMem}
 
