@@ -1,5 +1,5 @@
 
-const {Bag} = require('./bagClass');
+const {Bag} = require('../bagClass');
 
 
 describe('Bag Unit Test', ()=>{
