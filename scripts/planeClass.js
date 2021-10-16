@@ -3,24 +3,24 @@ const {CrewMem} = require('./crewmemClass');
 
 
 class Plane {
-    constructor(type, id) {
-        this.type = type;
-        this.id = id;
+    constructor(name, flightNo) {
+        this.name = name;
+        this.flightNo = flightNo;
         this.passengers = [];
         this.crewmembers = [];
         this.origin;
 
-        if (!this.type) {
-            throw new Error('Plane must have type');       
+        if (!this.name) {
+            throw new Error('Plane must have name');       
         }
-        if (typeof this.type !== 'string') {
-            throw new Error('Plane type must be a string');
+        if (typeof this.name !== 'string') {
+            throw new Error('Plane name must be a string');
         }
-        if (!this.id) {
-            throw new Error('Plane must have ID');       
+        if (!this.flightNo) {
+            throw new Error('Plane must have flight number');       
         }
-        if (typeof this.id !== 'number') {
-            throw new Error('Plane id must be a number');
+        if (typeof this.flightNo !== 'number') {
+            throw new Error('flightNo must be a number');
         }
     }
     board(person) {

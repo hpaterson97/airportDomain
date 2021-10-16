@@ -13,43 +13,39 @@ class Airport {
         Airport.airports.push(this) // each time a new instance of this class is created, it is added to the airports array
 
         if(!this.name) {
-            throw new Error('Airport must have name')
+            throw new Error('Airport must have name') //throws error if name is not given when creating an airport
         }
         if(typeof this.name !== 'string') {
-            throw new Error('Airport name must be a string')
+            throw new Error('Airport name must be a string') //throws error if name given is not a string when creating an airport
         }
     }
     setOrigin(plane) {
-        plane.origin = this.name;
+        plane.origin = this.name; //sets the origin of the plane given to this airport and pushes the plane onto the this airport's runway
         this.planes.push(plane);
     }
 
     fly(plane, destination) {
-        
-        
+        const dest = destination;
+        const newflightno = dest.name + plane.flightNo; //gives updated flight number i.e. first 3 letters of flight number should be the destination's airport name
         if(this.name !== plane.origin){
-            throw new Error('Plane is not on ' + this.name + "'s runway");
+            throw new Error('Plane is not on ' + this.name + "'s runway"); //throws error if plane that is to fly from this airport is not in the airport's runway
         }
         else {
-            const dest = destination;
+            
             const apdestindex = Airport.airports.indexOf(dest); //finding the index of the destination airport in the array of created airports
 
-            if (plane instanceof Plane) {
+            if (plane instanceof Plane) { 
                 
-                const planeindex = this.planes.indexOf(plane);
-                //console.log(planeindex);
-                const newlist = (this.planes).splice(planeindex, -1); 
-                //console.log(newlist);
-                this.planes = newlist;
-
-
-                Airport.airports[apdestindex].setOrigin(plane);
-                return 'Flight ' + plane.id + ' has flown from ' + this.name + ' to ' + dest.name;
+                const planeindex = this.planes.indexOf(plane); //finds the index of the plane given in the origin airport's plane array
+                this.planes.splice(planeindex, 1); //removes said plane from the origin airport's array
                 
-            
+                Airport.airports[apdestindex].setOrigin(plane); //sets the plane's new origin as the destination airport's name             
+                return plane.name + ' with flight number: ' + newflightno + ' has flown from ' + this.name + ' to ' + dest.name; //plane.flightNo = ogflightno;
+                // describes what has effectively happened: plane with flight number: (should contain destination airport's code/name and then planes id/number)
+                // has flown from origin airport to destination airport and now it's origin has been updated to represent the fact that it has flown to a different airport
+            }   // flight number has been reset to original flight number (without airport code in front)
 
-            }
-            else {
+            else { //if plane was not created from the Plane class then it is not recognised as a plane
                 throw new Error('Only scheduled planes can be on runway');
             }
         }
@@ -98,22 +94,31 @@ class Airport {
 
 module.exports = {Airport};
 
-const passenger1 = new Passenger('Jack', 123, 456);
-const sanFran = new Airport('San Fran');
-const london = new Airport('London');
-const plane1 = new Plane('abc', 555);
+
+const sanFran = new Airport('SFR');
+const london = new Airport('LDN');
+const plane1 = new Plane('plane 1', 55567);
+const plane2 = new Plane('plane 2', 12345);
+
 const crewmember1 = new CrewMem('Jill', 'Captain');
+const passenger1 = new Passenger('Jack', 123, 456);
+
+
+plane1.board(crewmember1);
+plane1.board(passenger1);
+
+
+london.setOrigin(plane2);
 
 sanFran.setOrigin(plane1);
-plane1.board(passenger1);
-plane1.board(crewmember1);
-console.log('Flight:', plane1.origin);
-console.log('san fran runway:', sanFran.planes.length);
-console.log('london runway:', london.planes.length);
+console.log('Planes currently on SFR runway: ', sanFran.planes);
+console.log('Planes currently on LDN runway: ', london.planes);
 console.log(sanFran.fly(plane1, london));
-console.log('san fran runway:', sanFran.planes.length);
-console.log('london runway', london.planes.length);
-console.log(london.fly(plane1, sanFran));
-console.log('san fran runway:', sanFran.planes.length);
-console.log('london runway', london.planes.length);
+console.log(london.fly(plane2, sanFran));
+console.log('Planes currently on SFR runway: ', sanFran.planes);
+console.log('Planes currently on LDN runway: ', london.planes);
+
+
+
+
 
